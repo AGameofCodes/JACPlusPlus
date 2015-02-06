@@ -5,7 +5,8 @@ SUBDIRS = src
 
 dist_doc_DATA = \
 	README.md \
-	LICENSE \
+	COPYING \
+    INSTALL \
 	AUTHORS
 
 

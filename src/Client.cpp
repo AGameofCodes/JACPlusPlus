@@ -1,15 +1,37 @@
-/* 
- * File:   Client.cpp
- * Author: jester
- * 
- * Created on February 13, 2015, 11:19 AM
+/*
+ * Client.cpp
+ * Copyright (C) 2015 A Game of Codes <>
+ *
+ * JACPlusPlus is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JACPlusPlus is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 //#include <bits/socket.h>
 
-
-
 #include "Client.h"
+
+#include <iostream>
+
+#include <netdb.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <cstdlib> // atoi, memset
+#include <cstring>
+#include <string>
+
+
+using std::cout;
+using std::endl;
 
 Client *Client::instance;
 
@@ -55,54 +77,54 @@ unsigned int Client::run(int argc, char** argv)
     struct sockaddr_in server_addr;
     struct hostent *server;
     int status;
-    
+
     if(argc < 3)
     {
         cout << "Usage: " << argv[0] << " Hostname port" << endl;
     }
-    
+
     portnumber = atoi(argv[2]);
-    
+
     socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if(socketfd < 0)
     {
         cout << "Error: Opening Socket!" << endl;
         return -1;
     }
-    
-    server = gethostbyname(argv[1]); // The gethostbyname function has been deprecated by the introduction of the getaddrinfo function. 
+
+    server = gethostbyname(argv[1]); // The gethostbyname function has been deprecated by the introduction of the getaddrinfo function.
     if(server == NULL)
     {
         cout << "Error: No such host!" << endl;
         return -1;
     }
-    // AF_INET is the address family that is used for the socket you're creating (in this case an Internet Protocol address). The Linux kernel, for example, supports 29 other address families such as UNIX 
+    // AF_INET is the address family that is used for the socket you're creating (in this case an Internet Protocol address). The Linux kernel, for example, supports 29 other address families such as UNIX
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
 
     memcpy((char *)&server_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
     server_addr.sin_port = htons(portnumber);
-    
+
     status = connect(socketfd, (sockaddr*)&server_addr, sizeof(server_addr));
     if(status < 0)
     {
         cout << "Error: Connecting!" << endl;
         return -1;
     }
-    
-  
-    
+
+
+
     cout << "Please, enter a message: " << endl;
     memset(buffer, 0, 256);
     std::cin.getline(buffer,256);
-    
+
     status = send(socketfd, buffer, strlen(buffer), 0);
     if(status < 0)
     {
         cout << "Error: Writing to socket!" << endl;
         return -1;
     }
-    
+
     //-------------------------
     // read server response
     memset(buffer, 0, sizeof(buffer));
@@ -114,5 +136,5 @@ unsigned int Client::run(int argc, char** argv)
     }
     cout << buffer << endl;
     return 0;
-        
+
 }

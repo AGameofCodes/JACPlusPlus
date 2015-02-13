@@ -10,6 +10,8 @@ dist_doc_DATA = \
 	AUTHORS
 
 
+love:
+	@echo "Not war."
 
 # Remove doc directory on uninstall
 uninstall-local:

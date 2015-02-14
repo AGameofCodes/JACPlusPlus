@@ -38,6 +38,7 @@
       </toolsSet>
       <compileType>
         <ccTool>
+          <standard>8</standard>
           <incDir>
             <pElem>../../libsockcpp/nbproject</pElem>
           </incDir>

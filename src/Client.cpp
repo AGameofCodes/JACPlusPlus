@@ -96,6 +96,7 @@ void Client::run(int argc, char** argv)
   if (argc < 3)
   {
     cout << "Usage: " << argv[0] << " Hostname port" << endl;
+    return;
   }
 
   portnumber = atoi(argv[2]);
@@ -108,6 +109,7 @@ void Client::run(int argc, char** argv)
   catch (libsockcpp::IllegalStateException &e)
   {
     std::cerr << e.what() << endl;
+    return;
   }
 
   while (enabled)

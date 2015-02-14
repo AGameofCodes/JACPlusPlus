@@ -93,13 +93,13 @@ unsigned int Client::run(int argc, char** argv)
   catch (libsockcpp::IllegalStateException &e)
   {
     std::cerr << e.what() << endl;
-    cout << "Please, enter a message: " << endl;
-    std::cin.getline(buffer, 255);
-
-    socket->write(buffer, 255);
-    int read = socket->read(buffer, 255);
-    buffer[read] = '\0';
   }
+  cout << "Please, enter a message: " << endl;
+  std::cin.getline(buffer, 255);
+
+  socket->write(buffer, 255);
+  int read = socket->read(buffer, 255);
+  buffer[read] = '\0';
   
   cout << buffer << endl;
 

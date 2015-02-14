@@ -19,8 +19,12 @@
 
 #include <iostream>
 
-int main()
+#include "Client.h"
+
+int main(int argc, char **argv)
 {
-    std::cout << "Hello world!" << std::endl;
-    return 0;
+  Client::getInstance()->start(argc, argv);
+  Client::getInstance()->awaitTermination();
+//  std::cout << "Hello world!" << std::endl;
+  return 0;
 }

@@ -45,6 +45,7 @@ public:
     static Client *getInstance();
     void start(int argc, char** argv);
     void stop();
+    void awaitTermination();
 
 };
 

@@ -53,19 +53,23 @@ Client* Client::getInstance()
 //------------------------------------------------------------------------------
 void Client::start(int argc, char** argv)
 {
-  if (enabled)
-  {
-    return;
-  }
-  enabled = true;
-
-  t = new std::thread(&Client::run, this, argc, argv);
-
+    if(enabled)
+    {
+      return;
+    }
+    enabled = true;
+  
+    t = new std::thread(&Client::run, this, argc, argv);
 }
 
 //------------------------------------------------------------------------------
 void Client::stop()
 {
+    if(!enabled)
+    {
+      return;
+    }
+    enabled = false;
 }
 
 //------------------------------------------------------------------------------
@@ -84,17 +88,18 @@ void Client::run(int argc, char** argv)
 
   portnumber = atoi(argv[2]);
   libsockcpp::Socket *socket = new libsockcpp::Socket();
-  
+
+  try
+  {
+    socket->connect((127 << 24) | 1, portnumber);
+  }
+  catch (libsockcpp::IllegalStateException &e)
+  {
+    std::cerr << e.what() << endl;
+  }
+    
   while(enabled)
   {
-    try
-    {
-      socket->connect((127 << 24) | 1, portnumber);
-    }
-    catch (libsockcpp::IllegalStateException &e)
-    {
-      std::cerr << e.what() << endl;
-    }
     cout << "Please, enter a message: " << endl;
     std::cin.getline(buffer, 255);
 
@@ -103,5 +108,17 @@ void Client::run(int argc, char** argv)
     buffer[read] = '\0';
 
     cout << buffer << endl;
-  }  
+  }
+  
+  socket->close();
+}
+
+//------------------------------------------------------------------------------
+void Client::awaitTermination()
+{
+  if (t != NULL)
+  {
+    t->join();
+    t == NULL;
+  }
 }

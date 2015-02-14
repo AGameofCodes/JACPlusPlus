@@ -43,7 +43,7 @@ private:
     
 public:
     static Client *getInstance();
-    void start();
+    void start(int argc, char** argv);
     void stop();
 
 };

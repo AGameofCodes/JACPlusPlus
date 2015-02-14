@@ -51,7 +51,7 @@ Client* Client::getInstance()
 
 
 //------------------------------------------------------------------------------
-void Client::start()
+void Client::start(int argc, char** argv)
 {
   if (enabled)
   {
@@ -59,7 +59,7 @@ void Client::start()
   }
   enabled = true;
 
-  t = new std::thread(&Client::run, this);
+  t = new std::thread(&Client::run, this, argc, argv);
 
 }
 

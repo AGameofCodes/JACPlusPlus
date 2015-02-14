@@ -34,7 +34,6 @@
 
 
 
-
 class Client {
 private:
     static Client *instance;

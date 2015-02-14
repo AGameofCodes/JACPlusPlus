@@ -88,7 +88,7 @@ unsigned int Client::run(int argc, char** argv)
 
   try
   {
-    socket->connect((1 << 24) | 127, portnumber);
+    socket->connect((127 << 24) | 1, portnumber);
   }
   catch (libsockcpp::IllegalStateException &e)
   {

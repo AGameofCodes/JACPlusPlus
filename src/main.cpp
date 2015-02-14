@@ -24,6 +24,7 @@
 int main(int argc, char **argv)
 {
   Client::getInstance()->start(argc, argv);
+  Client::getInstance()->awaitTermination();
 //  std::cout << "Hello world!" << std::endl;
   return 0;
 }

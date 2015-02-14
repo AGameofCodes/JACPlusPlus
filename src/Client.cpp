@@ -51,28 +51,40 @@ Client* Client::getInstance()
 
 
 //------------------------------------------------------------------------------
+
 void Client::start(int argc, char** argv)
 {
-    if(enabled)
-    {
-      return;
-    }
-    enabled = true;
-  
-    t = new std::thread(&Client::run, this, argc, argv);
+  if (enabled)
+  {
+    return;
+  }
+  enabled = true;
+
+  t = new std::thread(&Client::run, this, argc, argv);
 }
 
 //------------------------------------------------------------------------------
+
 void Client::stop()
 {
-    if(!enabled)
-    {
-      return;
-    }
-    enabled = false;
+  if (!enabled)
+  {
+    return;
+  }
+  enabled = false;
+}
+
+void Client::awaitTermination()
+{
+  if (t != NULL)
+  {
+    t->join();
+    t == NULL;
+  }
 }
 
 //------------------------------------------------------------------------------
+
 void Client::run(int argc, char** argv)
 {
   int portnumber;
@@ -97,8 +109,8 @@ void Client::run(int argc, char** argv)
   {
     std::cerr << e.what() << endl;
   }
-    
-  while(enabled)
+
+  while (enabled)
   {
     cout << "Please, enter a message: " << endl;
     std::cin.getline(buffer, 255);
@@ -109,16 +121,8 @@ void Client::run(int argc, char** argv)
 
     cout << buffer << endl;
   }
-  
+
   socket->close();
 }
 
 //------------------------------------------------------------------------------
-void Client::awaitTermination()
-{
-  if (t != NULL)
-  {
-    t->join();
-    t == NULL;
-  }
-}

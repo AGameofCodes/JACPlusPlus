@@ -23,10 +23,11 @@
 
 using std::cout;
 using std::endl;
+//using std::thread;
 
 Client *Client::instance;
 
-Client::Client()
+Client::Client() : t(NULL), enabled(false)
 {
 }
 
@@ -50,18 +51,25 @@ Client* Client::getInstance()
 
 
 //------------------------------------------------------------------------------
-unsigned int Client::start()
+void Client::start()
 {
+  if (enabled)
+  {
+    return;
+  }
+  enabled = true;
+
+  t = new std::thread(&Client::run, this);
 
 }
 
 //------------------------------------------------------------------------------
-unsigned int Client::stop()
+void Client::stop()
 {
 }
 
 //------------------------------------------------------------------------------
-unsigned int Client::run(int argc, char** argv)
+void Client::run(int argc, char** argv)
 {
   int portnumber;
   char buffer[256];
@@ -77,24 +85,23 @@ unsigned int Client::run(int argc, char** argv)
   portnumber = atoi(argv[2]);
   libsockcpp::Socket *socket = new libsockcpp::Socket();
   
-  try
+  while(enabled)
   {
-    socket->connect((127 << 24) | 1, portnumber);
-  }
-  catch (libsockcpp::IllegalStateException &e)
-  {
-    std::cerr << e.what() << endl;
-  }
-  cout << "Please, enter a message: " << endl;
-  std::cin.getline(buffer, 255);
+    try
+    {
+      socket->connect((127 << 24) | 1, portnumber);
+    }
+    catch (libsockcpp::IllegalStateException &e)
+    {
+      std::cerr << e.what() << endl;
+    }
+    cout << "Please, enter a message: " << endl;
+    std::cin.getline(buffer, 255);
 
-  socket->write(buffer, 255);
-  int read = socket->read(buffer, 255);
-  buffer[read] = '\0';
-  
-  cout << buffer << endl;
+    socket->write(buffer, 255);
+    int read = socket->read(buffer, 255);
+    buffer[read] = '\0';
 
-
-  return 0;
-
+    cout << buffer << endl;
+  }  
 }

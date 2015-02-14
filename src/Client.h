@@ -28,22 +28,23 @@
 #include <string>
 #include "../../libsockcpp/Socket.h"
 #include "../../libsockcpp/IllegalStateException.h"
-
-
-
+#include <thread>
 
 class Client {
 private:
     static Client *instance;
-
+    std::thread *t;
+    bool enabled;
+    
     Client();
     Client(const Client& orig);
     virtual ~Client();
+    void run(int argc, char** argv);
+    
 public:
     static Client *getInstance();
-    unsigned int start();
-    unsigned int stop();
-    unsigned int run(int argc, char** argv);
+    void start();
+    void stop();
 
 };
 

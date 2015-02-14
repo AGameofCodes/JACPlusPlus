@@ -19,8 +19,6 @@
 #ifndef CLIENT_H
 #define	CLIENT_H
 
-
-
 #include <iostream>
 #include <netdb.h>
 #include <sys/socket.h>
@@ -42,7 +40,6 @@ private:
     Client(const Client& orig);
     virtual ~Client();
 public:
-
     static Client *getInstance();
     unsigned int start();
     unsigned int stop();

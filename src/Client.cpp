@@ -50,20 +50,17 @@ Client* Client::getInstance()
 
 
 //------------------------------------------------------------------------------
-
 unsigned int Client::start()
 {
 
 }
 
 //------------------------------------------------------------------------------
-
 unsigned int Client::stop()
 {
 }
 
 //------------------------------------------------------------------------------
-
 unsigned int Client::run(int argc, char** argv)
 {
   int portnumber;
@@ -78,14 +75,8 @@ unsigned int Client::run(int argc, char** argv)
   }
 
   portnumber = atoi(argv[2]);
-
   libsockcpp::Socket *socket = new libsockcpp::Socket();
-  //    if(socket->getSocketFD() < 0)
-  //    {
-  //        cout << "Error: Opening Socket!" << endl;
-  //        
-  //    }
-
+  
   try
   {
     socket->connect((127 << 24) | 1, portnumber);
@@ -104,70 +95,6 @@ unsigned int Client::run(int argc, char** argv)
   cout << buffer << endl;
 
 
-  /*
-   * 
-   * 
-   *     int socketfd, newsocketfd;
-          int portnumber;
-          int response;
-          char buffer[256];
-          struct sockaddr_in server_addr;
-          struct hostent *server;
-          int status;
-
-              portnumber = atoi(argv[2]);
-
-             // socketfd = socket(AF_INET, SOCK_STREAM, 0);
-              if(socketfd < 0)
-      {
-          cout << "Error: Opening Socket!" << endl;
-          return -1;
-      }
-
-      server = gethostbyname(argv[1]); // The gethostbyname function has been deprecated by the introduction of the getaddrinfo function.
-      if(server == NULL)
-      {
-          cout << "Error: No such host!" << endl;
-          return -1;
-      }
-      // AF_INET is the address family that is used for the socket you're creating (in this case an Internet Protocol address). The Linux kernel, for example, supports 29 other address families such as UNIX
-      memset(&server_addr, 0, sizeof(server_addr));
-      server_addr.sin_family = AF_INET;
-
-      memcpy((char *)&server_addr.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
-      server_addr.sin_port = htons(portnumber);
-
-      status = connect(socketfd, (sockaddr*)&server_addr, sizeof(server_addr));
-      if(status < 0)
-      {
-          cout << "Error: Connecting!" << endl;
-          return -1;
-      }
-
-
-
-      cout << "Please, enter a message: " << endl;
-      memset(buffer, 0, 256);
-      std::cin.getline(buffer,256);
-
-      status = send(socketfd, buffer, strlen(buffer), 0);
-      if(status < 0)
-      {
-          cout << "Error: Writing to socket!" << endl;
-          return -1;
-      }
-
-      //-------------------------
-      // read server response
-      memset(buffer, 0, sizeof(buffer));
-      status = recv(socketfd, buffer, 255, 0);
-      if(status < 0)
-      {
-          cout << "Error: Reading from Socket!" << endl;
-          return -1;
-      }
-      cout << buffer << endl;
-   */
   return 0;
 
 }

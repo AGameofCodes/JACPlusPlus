@@ -20,16 +20,6 @@
 
 #include "Client.h"
 
-#include <iostream>
-
-#include <netdb.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <cstdlib> // atoi, memset
-#include <cstring>
-#include <string>
-
-
 using std::cout;
 using std::endl;
 

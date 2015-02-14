@@ -23,7 +23,7 @@
 
 int main(int argc, char **argv)
 {
-  Client::getInstance()->run(argc, argv);
+  Client::getInstance()->start(argc, argv);
 //  std::cout << "Hello world!" << std::endl;
   return 0;
 }
